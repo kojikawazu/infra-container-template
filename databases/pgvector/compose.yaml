@@ -1,0 +1,32 @@
+# pgvector (ベクトル検索用 PostgreSQL) — 単独起動: docker compose -f databases/pgvector/compose.yaml up pgvector
+# 通常の postgres とは別コンテナ・別ポート(5433)・別ボリューム。業務DBと資源/役割を分離する。
+# pgvector/pgvector イメージは公式 postgres の上位互換で、初回起動時に initdb/ で拡張を有効化する。
+services:
+  pgvector:
+    image: pgvector/pgvector:pg17
+    container_name: infra-pgvector
+    profiles: [pgvector, vector, all]
+    environment:
+      POSTGRES_DB: ${PGVECTOR_DB:-vectordb}
+      POSTGRES_USER: ${PGVECTOR_USER:-vectoruser}
+      POSTGRES_PASSWORD: ${PGVECTOR_PASSWORD:-vectorpass}
+    ports:
+      - "127.0.0.1:${PGVECTOR_PORT:-5433}:5432"
+    volumes:
+      - pgvector-data:/var/lib/postgresql/data
+      - ./initdb:/docker-entrypoint-initdb.d:ro
+    networks: [infra-net]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PGVECTOR_USER:-vectoruser} -d ${PGVECTOR_DB:-vectordb}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+networks:
+  infra-net:
+    name: infra-net
+
+volumes:
+  pgvector-data:
+    name: infra-pgvector-data

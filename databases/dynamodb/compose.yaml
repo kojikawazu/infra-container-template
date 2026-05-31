@@ -1,5 +1,8 @@
 # DynamoDB Local — 単独起動: docker compose -f databases/dynamodb/compose.yaml up dynamodb
-# -sharedDb + -dbPath でデータを永続化する（user: root は volume への書き込み権限のため）
+# -sharedDb + -dbPath でデータを永続化する。
+# user: root は named volume への書き込み権限確保のため（非root化は volume の chown が必要で
+# テンプレが煩雑になる）。privileged でもホストマウントでもなく、ポートは 127.0.0.1 バインドのため
+# 実害は小さい。本番では DynamoDB Local 自体を使わない想定。
 services:
   dynamodb:
     image: amazon/dynamodb-local:latest
@@ -9,7 +12,7 @@ services:
     working_dir: /home/dynamodblocal
     command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-dbPath", "./data"]
     ports:
-      - "${DYNAMODB_PORT:-8000}:8000"
+      - "127.0.0.1:${DYNAMODB_PORT:-8000}:8000"
     volumes:
       - dynamodb-data:/home/dynamodblocal/data
     networks: [infra-net]

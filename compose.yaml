@@ -7,7 +7,10 @@
 #   docker compose --profile storage up -d     # MinIO
 #   docker compose --profile messaging up -d   # Kafka + Kafka UI + RabbitMQ
 #   docker compose --profile emulator up -d    # BigQuery / LocalStack
-#   docker compose --profile monitoring up -d  # Prometheus + Grafana
+#   docker compose --profile monitoring up -d  # Prometheus + Grafana + Loki + Tempo
+#   docker compose --profile search up -d      # OpenSearch + Dashboards
+#   docker compose --profile vector up -d      # pgvector
+#   docker compose --profile mailpit up -d     # Mailpit (メール送信テスト)
 #   docker compose --profile all up -d         # 全部
 #
 # 個別 compose として起動する場合（ルートから）:
@@ -22,15 +25,21 @@ include:
   - databases/mongodb/compose.yaml
   - databases/dynamodb/compose.yaml
   - databases/redis/compose.yaml
+  - databases/pgvector/compose.yaml
   - storage/minio/compose.yaml
   - messaging/kafka/compose.yaml
   - messaging/rabbitmq/compose.yaml
+  - mail/mailpit/compose.yaml
   - emulators/bigquery/compose.yaml
   - emulators/localstack/compose.yaml
+  - search/opensearch/compose.yaml
   - monitoring/prometheus/compose.yaml
   - monitoring/grafana/compose.yaml
+  - monitoring/loki/compose.yaml
+  - monitoring/tempo/compose.yaml
   - clients/adminer/compose.yaml
   - clients/mongo-express/compose.yaml
   - clients/dynamodb-admin/compose.yaml
   - clients/redisinsight/compose.yaml
   - clients/kafka-ui/compose.yaml
+  - clients/opensearch-dashboards/compose.yaml

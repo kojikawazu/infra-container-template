@@ -17,3 +17,9 @@
 ## データ保持・移行
 
 <!-- 保持期間・アーカイブ・マイグレーション方針を記述する -->
+
+## ベクトルデータ (pgvector)
+
+- 通常の業務 RDB（`postgres`）とは**別コンテナ** `pgvector`（ポート 5433・ボリューム `infra-pgvector-data`）で扱う。資源・責務を業務DBと分離するため。
+- イメージ `pgvector/pgvector:pg17` は公式 postgres の上位互換。初回起動時に `databases/pgvector/initdb/01-enable-vector.sql` が `CREATE EXTENSION vector` を実行する。
+- ベクトル型 `vector(N)` と近傍検索演算子（`<->` L2 / `<=>` コサイン / `<#>` 内積）を利用できる。RAG・類似検索用途を想定。

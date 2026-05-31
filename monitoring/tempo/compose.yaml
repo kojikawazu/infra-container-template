@@ -1,0 +1,32 @@
+# Tempo (分散トレース) — 単独起動: docker compose -f monitoring/tempo/compose.yaml up tempo
+# クエリ/UI連携: http://localhost:3200  /  OTLP 受信: gRPC 4317 ・ HTTP 4318
+# アプリは OpenTelemetry SDK で tempo:4317(gRPC) か tempo:4318(HTTP) にトレースを送る。
+# Grafana から「トレース」のデータソースとして参照する（自動登録済み）。
+services:
+  tempo:
+    image: grafana/tempo:2.6.1
+    container_name: infra-tempo
+    profiles: [tempo, monitoring, all]
+    command: ["-config.file=/etc/tempo/tempo.yaml"]
+    ports:
+      - "127.0.0.1:${TEMPO_PORT:-3200}:3200"
+      - "127.0.0.1:${TEMPO_OTLP_GRPC_PORT:-4317}:4317"
+      - "127.0.0.1:${TEMPO_OTLP_HTTP_PORT:-4318}:4318"
+    volumes:
+      - ./tempo.yaml:/etc/tempo/tempo.yaml:ro
+      - tempo-data:/var/tempo
+    networks: [infra-net]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:3200/ready || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+networks:
+  infra-net:
+    name: infra-net
+
+volumes:
+  tempo-data:
+    name: infra-tempo-data

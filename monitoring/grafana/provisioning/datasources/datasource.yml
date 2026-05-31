@@ -1,4 +1,5 @@
-# Grafana データソース自動プロビジョニング — 起動時に Prometheus を自動登録する
+# Grafana データソース自動プロビジョニング — 起動時に Prometheus / Loki / Tempo を自動登録する。
+# Loki(ログ)・Tempo(トレース) は monitoring profile で起動していない場合は接続エラーになるだけで害はない。
 apiVersion: 1
 datasources:
   - name: Prometheus
@@ -6,4 +7,16 @@ datasources:
     access: proxy
     url: http://prometheus:9090
     isDefault: true
+    editable: true
+
+  - name: Loki
+    type: loki
+    access: proxy
+    url: http://loki:3100
+    editable: true
+
+  - name: Tempo
+    type: tempo
+    access: proxy
+    url: http://tempo:3200
     editable: true

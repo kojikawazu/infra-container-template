@@ -1,0 +1,31 @@
+# Mailpit (メール送信テスト) — 単独起動: docker compose -f mail/mailpit/compose.yaml up mailpit
+# アプリは SMTP を mailpit:1025 へ送る → 受信メールは Web UI http://localhost:8025 で確認する。
+# 実際には外部へ送信しないため、開発時のメール検証に安全に使える。
+services:
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: infra-mailpit
+    profiles: [mailpit, all]
+    ports:
+      - "127.0.0.1:${MAILPIT_SMTP_PORT:-1025}:1025"
+      - "127.0.0.1:${MAILPIT_UI_PORT:-8025}:8025"
+    environment:
+      MP_MAX_MESSAGES: ${MAILPIT_MAX_MESSAGES:-500}
+      MP_DATABASE: /data/mailpit.db
+    volumes:
+      - mailpit-data:/data
+    networks: [infra-net]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8025"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+networks:
+  infra-net:
+    name: infra-net
+
+volumes:
+  mailpit-data:
+    name: infra-mailpit-data

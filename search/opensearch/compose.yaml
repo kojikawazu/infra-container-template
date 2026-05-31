@@ -1,0 +1,41 @@
+# OpenSearch (全文検索エンジン・Apache-2.0/無料) — 単独起動: docker compose -f search/opensearch/compose.yaml up opensearch
+# API: http://localhost:9200  (例: curl localhost:9200 / curl localhost:9200/_cat/indices)
+# Elasticsearch 互換 API。GUI は OpenSearch Dashboards (clients/opensearch-dashboards) を使う。
+# ⚠ ローカル開発向けにセキュリティプラグインを無効化（HTTP・認証なし）している。
+#    ホストポートは 127.0.0.1 バインドで LAN 非公開。本番では必ず TLS+認証を有効化すること。
+services:
+  opensearch:
+    image: opensearchproject/opensearch:2.17.1
+    container_name: infra-opensearch
+    profiles: [opensearch, search, all]
+    environment:
+      discovery.type: single-node
+      DISABLE_SECURITY_PLUGIN: "true"
+      bootstrap.memory_lock: "true"
+      OPENSEARCH_JAVA_OPTS: ${OPENSEARCH_JAVA_OPTS:--Xms512m -Xmx512m}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "127.0.0.1:${OPENSEARCH_PORT:-9200}:9200"
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+    networks: [infra-net]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 30s
+
+networks:
+  infra-net:
+    name: infra-net
+
+volumes:
+  opensearch-data:
+    name: infra-opensearch-data

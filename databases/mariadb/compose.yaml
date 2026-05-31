@@ -12,7 +12,7 @@ services:
       MARIADB_USER: ${MARIADB_USER:-appuser}
       MARIADB_PASSWORD: ${MARIADB_PASSWORD:-apppass}
     ports:
-      - "${MARIADB_PORT:-3307}:3306"
+      - "127.0.0.1:${MARIADB_PORT:-3307}:3306"
     volumes:
       - mariadb-data:/var/lib/mysql
       - ./initdb:/docker-entrypoint-initdb.d:ro
