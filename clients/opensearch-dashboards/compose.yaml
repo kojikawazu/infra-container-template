@@ -1,0 +1,21 @@
+# OpenSearch Dashboards — OpenSearch 用 Web UI（Kibana 相当）
+# http://localhost:5601  接続先は内部ネットワークの opensearch:9200。
+# OpenSearch 側でセキュリティを無効化しているため、Dashboards 側のセキュリティも無効化する。
+services:
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:2.17.1
+    container_name: infra-opensearch-dashboards
+    profiles: [opensearch, search, all]
+    depends_on:
+      - opensearch
+    environment:
+      OPENSEARCH_HOSTS: '["http://opensearch:9200"]'
+      DISABLE_SECURITY_DASHBOARDS_PLUGIN: "true"
+    ports:
+      - "127.0.0.1:${OPENSEARCH_DASHBOARDS_PORT:-5601}:5601"
+    networks: [infra-net]
+    restart: unless-stopped
+
+networks:
+  infra-net:
+    name: infra-net

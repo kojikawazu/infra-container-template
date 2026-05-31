@@ -6,7 +6,7 @@ services:
     container_name: infra-redisinsight
     profiles: [redis, all]
     ports:
-      - "${REDISINSIGHT_PORT:-5540}:5540"
+      - "127.0.0.1:${REDISINSIGHT_PORT:-5540}:5540"
     volumes:
       - redisinsight-data:/data
     networks: [infra-net]

@@ -6,7 +6,7 @@ services:
     container_name: infra-dynamodb-admin
     profiles: [dynamodb, nosql, all]
     ports:
-      - "${DYNAMODB_ADMIN_PORT:-8001}:8001"
+      - "127.0.0.1:${DYNAMODB_ADMIN_PORT:-8001}:8001"
     environment:
       DYNAMO_ENDPOINT: http://dynamodb:8000
       AWS_REGION: ${AWS_REGION:-ap-northeast-1}

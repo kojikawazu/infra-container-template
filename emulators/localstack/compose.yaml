@@ -1,7 +1,10 @@
 # LocalStack (AWS エミュレータ・Community版/無料) — 単独起動: docker compose -f emulators/localstack/compose.yaml up localstack
 # 統合エンドポイント: http://localhost:4566
 # 例: aws --endpoint-url=http://localhost:4566 s3 ls
-# docker.sock のマウントは Lambda 実行に必要。SERVICES で有効化するサービスを絞れる。
+# SERVICES で有効化するサービスを絞れる。
+# ⚠ Lambda を使う場合のみ、SERVICES に lambda を加え、下の docker.sock マウントを有効化する。
+#    docker.sock のマウントは「コンテナからホストの Docker を操作できる＝実質ホスト権限」になるため、
+#    既定では無効（Lambda 実行に必要なときだけ opt-in する）。
 # ⚠ :latest (4系以降) は無料 Community でも LOCALSTACK_AUTH_TOKEN（無料登録トークン）が必須。
 #    本テンプレはサインアップ不要で使えるよう 3 系にピン留めしている。
 #    新機能が必要なら image を :latest にし .env で LOCALSTACK_AUTH_TOKEN を設定する。
@@ -11,14 +14,15 @@ services:
     container_name: infra-localstack
     profiles: [localstack, emulator, all]
     ports:
-      - "${LOCALSTACK_PORT:-4566}:4566"
+      - "127.0.0.1:${LOCALSTACK_PORT:-4566}:4566"
     environment:
-      SERVICES: ${LOCALSTACK_SERVICES:-s3,sqs,sns,dynamodb,lambda}
+      SERVICES: ${LOCALSTACK_SERVICES:-s3,sqs,sns,dynamodb}
       DEBUG: ${LOCALSTACK_DEBUG:-0}
       LOCALSTACK_AUTH_TOKEN: ${LOCALSTACK_AUTH_TOKEN:-}
     volumes:
       - localstack-data:/var/lib/localstack
-      - /var/run/docker.sock:/var/run/docker.sock
+      # Lambda を使うとき"だけ"次の行を有効化する（ホスト権限を渡すため既定は無効）:
+      # - /var/run/docker.sock:/var/run/docker.sock
     networks: [infra-net]
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]

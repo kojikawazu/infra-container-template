@@ -9,6 +9,8 @@
 .idea/
 .vscode/
 
-# initdb の実データ（テンプレ用 .gitkeep は残す）
+# initdb の実データ（テンプレ用 .gitkeep / テンプレ提供スクリプトは残す）
 databases/*/initdb/*
 !databases/*/initdb/.gitkeep
+# pgvector の拡張有効化スクリプトはテンプレートの一部としてコミットする
+!databases/pgvector/initdb/01-enable-vector.sql
