@@ -1,0 +1,23 @@
+# DynamoDB Local — 単独起動: docker compose -f databases/dynamodb/compose.yaml up dynamodb
+# -sharedDb + -dbPath でデータを永続化する（user: root は volume への書き込み権限のため）
+services:
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    container_name: infra-dynamodb
+    profiles: [dynamodb, nosql, all]
+    user: root
+    working_dir: /home/dynamodblocal
+    command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-dbPath", "./data"]
+    ports:
+      - "${DYNAMODB_PORT:-8000}:8000"
+    volumes:
+      - dynamodb-data:/home/dynamodblocal/data
+    networks: [infra-net]
+
+networks:
+  infra-net:
+    name: infra-net
+
+volumes:
+  dynamodb-data:
+    name: infra-dynamodb-data

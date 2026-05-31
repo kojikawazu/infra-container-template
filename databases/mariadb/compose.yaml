@@ -1,0 +1,33 @@
+# MariaDB — 単独起動: docker compose -f databases/mariadb/compose.yaml up mariadb
+# MySQL と同居できるようホスト側ポートは 3307。クライアントは Adminer（http://localhost:8080）。
+# initdb/ に置いた *.sql / *.sh は初回起動時に自動実行される。
+services:
+  mariadb:
+    image: mariadb:11.4
+    container_name: infra-mariadb
+    profiles: [mariadb, sql, all]
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-rootpass}
+      MARIADB_DATABASE: ${MARIADB_DATABASE:-appdb}
+      MARIADB_USER: ${MARIADB_USER:-appuser}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD:-apppass}
+    ports:
+      - "${MARIADB_PORT:-3307}:3306"
+    volumes:
+      - mariadb-data:/var/lib/mysql
+      - ./initdb:/docker-entrypoint-initdb.d:ro
+    networks: [infra-net]
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+networks:
+  infra-net:
+    name: infra-net
+
+volumes:
+  mariadb-data:
+    name: infra-mariadb-data

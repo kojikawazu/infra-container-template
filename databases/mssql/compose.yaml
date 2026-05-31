@@ -1,0 +1,29 @@
+# MSSQL (Microsoft SQL Server) — 単独起動: docker compose -f databases/mssql/compose.yaml up mssql
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: infra-mssql
+    profiles: [mssql, sql, all]
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:-Your_strong_Pass123}
+      MSSQL_PID: ${MSSQL_PID:-Developer}
+    ports:
+      - "${MSSQL_PORT:-1433}:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql
+    networks: [infra-net]
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+networks:
+  infra-net:
+    name: infra-net
+
+volumes:
+  mssql-data:
+    name: infra-mssql-data

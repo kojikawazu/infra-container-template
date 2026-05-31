@@ -1,0 +1,31 @@
+# PostgreSQL — 単独起動: docker compose -f databases/postgres/compose.yaml up postgres
+# initdb/ に置いた *.sql / *.sh は初回起動時に自動実行される
+services:
+  postgres:
+    image: postgres:17
+    container_name: infra-postgres
+    profiles: [postgres, sql, all]
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-appdb}
+      POSTGRES_USER: ${POSTGRES_USER:-appuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-apppass}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./initdb:/docker-entrypoint-initdb.d:ro
+    networks: [infra-net]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-appuser} -d ${POSTGRES_DB:-appdb}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+networks:
+  infra-net:
+    name: infra-net
+
+volumes:
+  postgres-data:
+    name: infra-postgres-data

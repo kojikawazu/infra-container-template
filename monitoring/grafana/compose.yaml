@@ -1,0 +1,26 @@
+# Grafana — 単独起動: docker compose -f monitoring/grafana/compose.yaml up grafana
+# http://localhost:3000  ログインは .env の GF_SECURITY_ADMIN_*。
+# 起動時に provisioning/ から Prometheus データソースを自動登録する。
+services:
+  grafana:
+    image: grafana/grafana:latest
+    container_name: infra-grafana
+    profiles: [grafana, monitoring, all]
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    volumes:
+      - ./provisioning:/etc/grafana/provisioning:ro
+      - grafana-data:/var/lib/grafana
+    networks: [infra-net]
+    restart: unless-stopped
+
+networks:
+  infra-net:
+    name: infra-net
+
+volumes:
+  grafana-data:
+    name: infra-grafana-data

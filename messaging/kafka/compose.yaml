@@ -1,0 +1,28 @@
+# Apache Kafka (KRaft・単一ノード) — 単独起動: docker compose -f messaging/kafka/compose.yaml up kafka
+# ホストからは localhost:9092、コンテナ間からは kafka:19092 で接続する。
+# 検証用にログは ephemeral（永続化なし）。必要なら KAFKA_LOG_DIRS + volume を追加する。
+services:
+  kafka:
+    image: apache/kafka:latest
+    container_name: infra-kafka
+    profiles: [kafka, messaging, all]
+    ports:
+      - "${KAFKA_PORT:-9092}:9092"
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093,INTERNAL://0.0.0.0:19092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,INTERNAL://kafka:19092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,INTERNAL:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    networks: [infra-net]
+
+networks:
+  infra-net:
+    name: infra-net

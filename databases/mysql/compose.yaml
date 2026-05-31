@@ -1,0 +1,32 @@
+# MySQL — 単独起動: docker compose -f databases/mysql/compose.yaml up mysql
+# initdb/ に置いた *.sql / *.sh は初回起動時に自動実行される
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: infra-mysql
+    profiles: [mysql, sql, all]
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpass}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-appdb}
+      MYSQL_USER: ${MYSQL_USER:-appuser}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-apppass}
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./initdb:/docker-entrypoint-initdb.d:ro
+    networks: [infra-net]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD:-rootpass}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+networks:
+  infra-net:
+    name: infra-net
+
+volumes:
+  mysql-data:
+    name: infra-mysql-data

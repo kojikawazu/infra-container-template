@@ -1,0 +1,21 @@
+# RedisInsight — Redis 公式 GUI
+# http://localhost:5540  初回に DB 追加: Host=redis Port=6379 Password=${REDIS_PASSWORD}
+services:
+  redisinsight:
+    image: redis/redisinsight:latest
+    container_name: infra-redisinsight
+    profiles: [redis, all]
+    ports:
+      - "${REDISINSIGHT_PORT:-5540}:5540"
+    volumes:
+      - redisinsight-data:/data
+    networks: [infra-net]
+    restart: unless-stopped
+
+networks:
+  infra-net:
+    name: infra-net
+
+volumes:
+  redisinsight-data:
+    name: infra-redisinsight-data

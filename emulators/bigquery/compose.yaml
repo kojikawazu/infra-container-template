@@ -1,0 +1,21 @@
+# BigQuery emulator (goccy/bigquery-emulator) — 単独起動: docker compose -f emulators/bigquery/compose.yaml up bigquery
+# REST: http://localhost:9050  /  gRPC: localhost:9060
+# クライアント側は BigQuery クライアントの endpoint を http://localhost:9050 に差し替えて使う。
+# ⚠ コミュニティ製エミュレータ。実 BigQuery と完全互換ではない（学習・CI 用途）。
+services:
+  bigquery:
+    image: ghcr.io/goccy/bigquery-emulator:latest
+    container_name: infra-bigquery
+    profiles: [bigquery, emulator, all]
+    command:
+      - "--project=${BIGQUERY_PROJECT:-local-project}"
+      - "--port=9050"
+      - "--grpc-port=9060"
+    ports:
+      - "${BIGQUERY_REST_PORT:-9050}:9050"
+      - "${BIGQUERY_GRPC_PORT:-9060}:9060"
+    networks: [infra-net]
+
+networks:
+  infra-net:
+    name: infra-net

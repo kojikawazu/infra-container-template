@@ -1,0 +1,9 @@
+# Grafana データソース自動プロビジョニング — 起動時に Prometheus を自動登録する
+apiVersion: 1
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    editable: true

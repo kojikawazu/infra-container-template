@@ -1,0 +1,36 @@
+# ルート compose: include で全DB・全クライアントを束ねる。
+# 起動は profile で選択する（profile 未指定では何も起動しない = 意図的な選択を強制）。
+#
+#   docker compose --profile postgres up -d   # Postgres + Adminer
+#   docker compose --profile sql up -d         # MSSQL/MySQL/PostgreSQL + Adminer
+#   docker compose --profile nosql up -d       # MongoDB/DynamoDB + 各GUI
+#   docker compose --profile storage up -d     # MinIO
+#   docker compose --profile messaging up -d   # Kafka + Kafka UI + RabbitMQ
+#   docker compose --profile emulator up -d    # BigQuery / LocalStack
+#   docker compose --profile monitoring up -d  # Prometheus + Grafana
+#   docker compose --profile all up -d         # 全部
+#
+# 個別 compose として起動する場合（ルートから）:
+#   docker compose -f databases/mysql/compose.yaml up mysql
+name: infra-container-template
+
+include:
+  - databases/mssql/compose.yaml
+  - databases/mysql/compose.yaml
+  - databases/postgres/compose.yaml
+  - databases/mariadb/compose.yaml
+  - databases/mongodb/compose.yaml
+  - databases/dynamodb/compose.yaml
+  - databases/redis/compose.yaml
+  - storage/minio/compose.yaml
+  - messaging/kafka/compose.yaml
+  - messaging/rabbitmq/compose.yaml
+  - emulators/bigquery/compose.yaml
+  - emulators/localstack/compose.yaml
+  - monitoring/prometheus/compose.yaml
+  - monitoring/grafana/compose.yaml
+  - clients/adminer/compose.yaml
+  - clients/mongo-express/compose.yaml
+  - clients/dynamodb-admin/compose.yaml
+  - clients/redisinsight/compose.yaml
+  - clients/kafka-ui/compose.yaml

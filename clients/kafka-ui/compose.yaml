@@ -1,0 +1,19 @@
+# Kafka UI — Kafka 用 Web UI
+# http://localhost:8082  ブートストラップは内部リスナー kafka:19092 を参照
+services:
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: infra-kafka-ui
+    profiles: [kafka, messaging, all]
+    ports:
+      - "${KAFKA_UI_PORT:-8082}:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:19092
+      DYNAMIC_CONFIG_ENABLED: "true"
+    networks: [infra-net]
+    restart: unless-stopped
+
+networks:
+  infra-net:
+    name: infra-net

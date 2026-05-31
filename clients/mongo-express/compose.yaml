@@ -1,0 +1,19 @@
+# Mongo Express — MongoDB 用 Web UI
+# http://localhost:8081  Basic認証: ME_CONFIG_BASICAUTH_*（既定 admin / admin）
+services:
+  mongo-express:
+    image: mongo-express:1.0.2
+    container_name: infra-mongo-express
+    profiles: [mongodb, nosql, all]
+    ports:
+      - "${MONGO_EXPRESS_PORT:-8081}:8081"
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_ROOT_USERNAME:-root}:${MONGO_ROOT_PASSWORD:-rootpass}@mongodb:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_USER:-admin}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_PASSWORD:-admin}
+    networks: [infra-net]
+    restart: unless-stopped
+
+networks:
+  infra-net:
+    name: infra-net

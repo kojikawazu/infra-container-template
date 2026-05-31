@@ -1,0 +1,25 @@
+# Prometheus — 単独起動: docker compose -f monitoring/prometheus/compose.yaml up prometheus
+# http://localhost:9090  スクレイプ設定は ./prometheus.yml を編集する。
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: infra-prometheus
+    profiles: [prometheus, monitoring, all]
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    networks: [infra-net]
+    restart: unless-stopped
+
+networks:
+  infra-net:
+    name: infra-net
+
+volumes:
+  prometheus-data:
+    name: infra-prometheus-data

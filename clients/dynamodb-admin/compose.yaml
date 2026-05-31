@@ -1,0 +1,20 @@
+# dynamodb-admin — DynamoDB Local 用 Web UI
+# http://localhost:8001  認証情報はローカル用ダミーで可
+services:
+  dynamodb-admin:
+    image: aaronshaf/dynamodb-admin:latest
+    container_name: infra-dynamodb-admin
+    profiles: [dynamodb, nosql, all]
+    ports:
+      - "${DYNAMODB_ADMIN_PORT:-8001}:8001"
+    environment:
+      DYNAMO_ENDPOINT: http://dynamodb:8000
+      AWS_REGION: ${AWS_REGION:-ap-northeast-1}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-local}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-local}
+    networks: [infra-net]
+    restart: unless-stopped
+
+networks:
+  infra-net:
+    name: infra-net
