@@ -12,6 +12,7 @@
 
 ## 参照資料
 
+- [学習ガイド一覧 (docs/guides/00-index.md)](./guides/00-index.md) — コンテナ別の概要・起動・接続・実装例（CLI / TypeScript / Python）
 <!-- 関連ドキュメント・外部リンク・規約を列挙する -->
 
 ## 付録・注記
