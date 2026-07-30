@@ -14,3 +14,5 @@
 | documentation.md | 全体 | ドキュメント更新ルール |
 | git.md | 全体 | GitHub Flow・ブランチ命名・push 禁止物 |
 | testing.md | 全体 | テスト分類・原則 |
+
+ルール本文の正本は `.claude/rules/` です。Codex 等の他エージェントは [`AGENTS.md`](AGENTS.md) から同じルールを参照します。ルールファイルを追加・削除・改名した場合は、この表・`AGENTS.md`・README を同一 PR で同期してください。
