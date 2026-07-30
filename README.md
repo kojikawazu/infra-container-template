@@ -148,3 +148,7 @@ docker exec -it infra-mongodb mongosh -u root -p rootpass
 | ルール本文（正本） | [`.claude/rules/`](.claude/rules/) |
 
 現時点でルールはすべてリポジトリ全体に適用され、パス別（ディレクトリ限定）のルールはありません。
+
+## ライセンス
+
+[MIT License](LICENSE) で公開している。
