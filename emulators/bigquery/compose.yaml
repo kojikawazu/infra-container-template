@@ -4,7 +4,7 @@
 # ⚠ コミュニティ製エミュレータ。実 BigQuery と完全互換ではない（学習・CI 用途）。
 services:
   bigquery:
-    image: ghcr.io/goccy/bigquery-emulator:latest
+    image: ghcr.io/goccy/bigquery-emulator:0.8.1
     container_name: infra-bigquery
     profiles: [bigquery, emulator, all]
     command:

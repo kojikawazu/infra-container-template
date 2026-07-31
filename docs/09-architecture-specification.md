@@ -31,30 +31,30 @@ DB コンテナ群 + 各 DB を覗く Web クライアントの2レイヤー構�
 
 | 種別 | イメージ |
 |------|---------|
-| MSSQL | `mcr.microsoft.com/mssql/server:2022-latest` |
+| MSSQL | `mcr.microsoft.com/mssql/server:2022-CU26-ubuntu-22.04` |
 | MySQL | `mysql:8.4` |
 | MariaDB | `mariadb:11.4` |
 | PostgreSQL | `postgres:17` |
 | MongoDB | `mongo:7` |
-| DynamoDB Local | `amazon/dynamodb-local:latest` |
+| DynamoDB Local | `amazon/dynamodb-local:3.3.0` |
 | Redis | `redis:7-alpine` |
 | pgvector | `pgvector/pgvector:pg17`（postgres17 + vector 拡張） |
-| MinIO (S3互換) | `minio/minio:latest` |
-| Kafka | `apache/kafka:latest` |
+| MinIO (S3互換) | `minio/minio:RELEASE.2025-09-07T16-13-09Z` |
+| Kafka | `apache/kafka:4.3.1` |
 | RabbitMQ | `rabbitmq:4-management` |
-| Mailpit | `axllent/mailpit:latest` |
+| Mailpit | `axllent/mailpit:v1.30.6` |
 | OpenSearch | `opensearchproject/opensearch:2.17.1` |
-| BigQuery emulator | `ghcr.io/goccy/bigquery-emulator:latest` |
+| BigQuery emulator | `ghcr.io/goccy/bigquery-emulator:0.8.1` |
 | LocalStack (AWS) | `localstack/localstack:3`（:latest は無料でも auth token 必須のため固定） |
-| Prometheus | `prom/prometheus:latest` |
-| Grafana | `grafana/grafana:latest` |
+| Prometheus | `prom/prometheus:v3.13.2` |
+| Grafana | `grafana/grafana:13.1.1` |
 | Loki | `grafana/loki:3.1.1` |
 | Tempo | `grafana/tempo:2.6.1` |
-| Adminer | `adminer:latest` |
+| Adminer | `adminer:5.5.0` |
 | Mongo Express | `mongo-express:1.0.2` |
-| dynamodb-admin | `aaronshaf/dynamodb-admin:latest` |
-| RedisInsight | `redis/redisinsight:latest` |
-| Kafka UI | `provectuslabs/kafka-ui:latest` |
+| dynamodb-admin | `aaronshaf/dynamodb-admin:5.3.4` |
+| RedisInsight | `redis/redisinsight:3.8.0` |
+| Kafka UI | `provectuslabs/kafka-ui:v0.7.2` |
 | OpenSearch Dashboards | `opensearchproject/opensearch-dashboards:2.17.1` |
 
 > OpenSearch / MinIO / Kafka / Mailpit / Loki / Tempo / BigQuery emulator / LocalStack はローカル動作の OSS・エミュレータで、実クラウドに接続せず課金は発生しない（OpenSearch は Apache-2.0、LocalStack は無料の Community 版）。

@@ -6,7 +6,7 @@
 
 | 項目 | 値 |
 |------|----|
-| イメージ | `apache/kafka:latest`（KRaft・単一ノード） |
+| イメージ | `apache/kafka:4.3.1`（KRaft・単一ノード） |
 | コンテナ名 | `infra-kafka` |
 | カテゴリ | メッセージング（分散イベントストリーミング） |
 | profile | `kafka` / `messaging` / `all` |

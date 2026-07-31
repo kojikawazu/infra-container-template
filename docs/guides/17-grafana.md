@@ -6,7 +6,7 @@
 
 | 項目 | 値 |
 |------|----|
-| イメージ | `grafana/grafana:latest` |
+| イメージ | `grafana/grafana:13.1.1` |
 | コンテナ名 | `infra-grafana` |
 | カテゴリ | 監視（可視化・ダッシュボード） |
 | profile | `grafana` / `monitoring` / `all` |

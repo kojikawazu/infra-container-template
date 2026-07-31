@@ -2,7 +2,7 @@
 # http://localhost:8080  ログイン時に「サーバ」へ mysql / postgres / mssql（サービス名）を指定
 services:
   adminer:
-    image: adminer:latest
+    image: adminer:5.5.0
     container_name: infra-adminer
     profiles: [mysql, mariadb, postgres, mssql, sql, all]
     ports:

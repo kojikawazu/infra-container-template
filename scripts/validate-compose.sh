@@ -53,6 +53,14 @@ check "no profile -> 0 services" 0 "$(docker compose config --services 2>/dev/nu
 echo "== 異常系: 未知の profile は 0 サービス（安全に空集合）=="
 check "unknown profile -> 0 services" 0 "$(svc_count no-such-profile)"
 
+echo "== 異常系: 可変タグのイメージが混入していない（再現性の担保）=="
+# `latest` 等の可変タグは中身が黙って変わり、再現性を壊す（.claude/rules/security.md）。
+# `docker compose config` の解決結果を見るため、include 先の記述漏れも検出できる。
+check "mutable image tags" 0 \
+  "$(docker compose --profile all config 2>/dev/null | grep -E '^\s+image:.*:(latest|[0-9]{4}-latest)$' | wc -l | tr -d ' ')"
+check "untagged images" 0 \
+  "$(docker compose --profile all config 2>/dev/null | grep -E '^\s+image:\s*[^:]+$' | wc -l | tr -d ' ')"
+
 echo
 echo "結果: PASS=$pass FAIL=$fail"
 [ "$fail" -eq 0 ]

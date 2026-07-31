@@ -3,7 +3,7 @@
 # 起動時に provisioning/ から Prometheus データソースを自動登録する。
 services:
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:13.1.1
     container_name: infra-grafana
     profiles: [grafana, monitoring, all]
     environment:

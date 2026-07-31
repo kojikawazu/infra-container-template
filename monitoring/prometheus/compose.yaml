@@ -2,7 +2,7 @@
 # http://localhost:9090  スクレイプ設定は ./prometheus.yml を編集する。
 services:
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v3.13.2
     container_name: infra-prometheus
     profiles: [prometheus, monitoring, all]
     command:

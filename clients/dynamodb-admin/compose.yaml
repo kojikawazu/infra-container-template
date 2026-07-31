@@ -2,7 +2,7 @@
 # http://localhost:8001  認証情報はローカル用ダミーで可
 services:
   dynamodb-admin:
-    image: aaronshaf/dynamodb-admin:latest
+    image: aaronshaf/dynamodb-admin:5.3.4
     container_name: infra-dynamodb-admin
     profiles: [dynamodb, nosql, all]
     ports:

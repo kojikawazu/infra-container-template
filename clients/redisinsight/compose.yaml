@@ -2,7 +2,7 @@
 # http://localhost:5540  初回に DB 追加: Host=redis Port=6379 Password=${REDIS_PASSWORD}
 services:
   redisinsight:
-    image: redis/redisinsight:latest
+    image: redis/redisinsight:3.8.0
     container_name: infra-redisinsight
     profiles: [redis, all]
     ports:

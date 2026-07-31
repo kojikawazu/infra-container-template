@@ -6,7 +6,7 @@
 
 | 項目 | 値 |
 |------|----|
-| イメージ | `axllent/mailpit:latest` |
+| イメージ | `axllent/mailpit:v1.30.6` |
 | コンテナ名 | `infra-mailpit` |
 | カテゴリ | メール（SMTP 受信トラップ + Web UI） |
 | profile | `mailpit` / `all` |

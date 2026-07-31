@@ -6,7 +6,7 @@
 
 | 項目 | 値 |
 |------|----|
-| イメージ | `amazon/dynamodb-local:latest` |
+| イメージ | `amazon/dynamodb-local:3.3.0` |
 | コンテナ名 | `infra-dynamodb` |
 | カテゴリ | NoSQL（キーバリュー / ドキュメント・AWS エミュレータ） |
 | profile | `dynamodb` / `nosql` / `all` |

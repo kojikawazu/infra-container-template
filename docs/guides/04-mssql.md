@@ -6,7 +6,7 @@
 
 | 項目 | 値 |
 |------|----|
-| イメージ | `mcr.microsoft.com/mssql/server:2022-latest` |
+| イメージ | `mcr.microsoft.com/mssql/server:2022-CU26-ubuntu-22.04` |
 | コンテナ名 | `infra-mssql` |
 | カテゴリ | リレーショナルDB（RDB） |
 | profile | `mssql` / `sql` / `all` |

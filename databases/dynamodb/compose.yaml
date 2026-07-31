@@ -5,7 +5,7 @@
 # 実害は小さい。本番では DynamoDB Local 自体を使わない想定。
 services:
   dynamodb:
-    image: amazon/dynamodb-local:latest
+    image: amazon/dynamodb-local:3.3.0
     container_name: infra-dynamodb
     profiles: [dynamodb, nosql, all]
     user: root
