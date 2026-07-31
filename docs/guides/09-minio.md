@@ -6,7 +6,7 @@
 
 | 項目 | 値 |
 |------|----|
-| イメージ | `minio/minio:latest` |
+| イメージ | `minio/minio:RELEASE.2025-09-07T16-13-09Z` |
 | コンテナ名 | `infra-minio` |
 | カテゴリ | オブジェクトストレージ（S3 互換） |
 | profile | `minio` / `storage` / `all` |

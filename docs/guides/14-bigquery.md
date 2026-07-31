@@ -6,7 +6,7 @@
 
 | 項目 | 値 |
 |------|----|
-| イメージ | `ghcr.io/goccy/bigquery-emulator:latest` |
+| イメージ | `ghcr.io/goccy/bigquery-emulator:0.8.1` |
 | コンテナ名 | `infra-bigquery` |
 | カテゴリ | エミュレータ（Google BigQuery のローカル代替） |
 | profile | `bigquery` / `emulator` / `all` |

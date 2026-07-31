@@ -6,7 +6,7 @@
 
 | 項目 | 値 |
 |------|----|
-| イメージ | `prom/prometheus:latest` |
+| イメージ | `prom/prometheus:v3.13.2` |
 | コンテナ名 | `infra-prometheus` |
 | カテゴリ | 監視（メトリクス収集・時系列DB） |
 | profile | `prometheus` / `monitoring` / `all` |
