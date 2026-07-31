@@ -12,6 +12,12 @@ services:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093,INTERNAL://0.0.0.0:19092
+      # ADVERTISED_LISTENERS は「クライアントが次に接続すべきアドレス」を broker が返す値。
+      # クライアントは最初の接続後、ここで返されたアドレスへ繋ぎ直すため、
+      # 接続元によって到達可能なアドレスが違う = リスナーを 2 系統に分ける必要がある。
+      #   PLAINTEXT(9092) → ホスト PC から: localhost:9092
+      #   INTERNAL(19092) → 同一ネットワークのコンテナから: kafka:19092
+      # ⚠ ここを 1 系統にすると、片方の接続元から「接続はできるが直後にタイムアウトする」状態になる。
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,INTERNAL://kafka:19092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,INTERNAL:PLAINTEXT
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER

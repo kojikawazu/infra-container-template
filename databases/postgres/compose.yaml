@@ -15,6 +15,14 @@ services:
       - postgres-data:/var/lib/postgresql/data
       - ./initdb:/docker-entrypoint-initdb.d:ro
     networks: [infra-net]
+    # healthcheck は「コンテナが起動した」と「接続できる」の差を埋める仕組み。
+    # DB はプロセス起動後も初期化中は接続を受け付けないため、起動直後の接続は失敗しうる。
+    # 判定結果は docker compose ps の STATUS（healthy / starting）に出る。
+    # 依存サービス側で待ちたい場合は depends_on の condition と組み合わせる:
+    #   depends_on:
+    #     postgres:
+    #       condition: service_healthy
+    # （本テンプレは各サービスを独立に起動する方針のため、現状この待ち合わせは使っていない）
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-appuser} -d ${POSTGRES_DB:-appdb}"]
       interval: 10s
