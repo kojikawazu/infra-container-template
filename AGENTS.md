@@ -13,6 +13,9 @@
 | [`.claude/rules/documentation.md`](.claude/rules/documentation.md) | ドキュメント更新ルール（影響マップ） |
 | [`.claude/rules/git.md`](.claude/rules/git.md) | GitHub Flow・ブランチ命名・push 禁止物 |
 | [`.claude/rules/testing.md`](.claude/rules/testing.md) | テスト分類・原則 |
+| [`.claude/rules/security.md`](.claude/rules/security.md) | セキュリティ方針（ポート公開範囲・シークレット管理・コンテナ権限） |
+| [`.claude/rules/github-issue.md`](.claude/rules/github-issue.md) | GitHub issue 運用（issue とブランチの対応・自動クローズ） |
+| [`.claude/rules/codex.md`](.claude/rules/codex.md) | Codex 利用時のエージェント運用ルール |
 | [`.claude/rules/shortcuts.md`](.claude/rules/shortcuts.md) | 指示ショートカット |
 
 現時点でパス別（ディレクトリ限定）のルールはありません。すべてのルールがリポジトリ全体に適用されます。
@@ -20,9 +23,8 @@
 ## このリポジトリ固有の注意
 
 - サービス定義は `<カテゴリ>/<名前>/compose.yaml` に独立記述し、ルートの `compose.yaml` が `include` で束ねる。定義を二重管理しない。
-- ホストポートは `127.0.0.1` バインドを維持する（[docs/06-security-specification.md](docs/06-security-specification.md)）。
 - 構成を変更したら `bash scripts/validate-compose.sh` で検証する。
-- 認証情報は `.env` に置き、`.env.example` のみをコミットする。実際のシークレット・鍵ファイルを push しない。
+- ポート公開範囲・シークレット・コンテナ権限の扱いは [`.claude/rules/security.md`](.claude/rules/security.md) と [docs/06-security-specification.md](docs/06-security-specification.md) に従う。
 
 ## ルール構成を変更するとき
 
@@ -30,4 +32,4 @@
 
 ## ショートカットの扱い
 
-`.claude/rules/shortcuts.md` の意図は守る。ただし Claude 固有のスキル名は、利用可能な Codex の機能・指示に読み替える。Codex は PR の承認・マージを実行しない。
+[`.claude/rules/shortcuts.md`](.claude/rules/shortcuts.md) の意図は守る。読み替えの方針と Codex の GitHub 操作範囲は [`.claude/rules/codex.md`](.claude/rules/codex.md) に従う。
