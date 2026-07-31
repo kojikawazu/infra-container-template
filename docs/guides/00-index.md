@@ -60,6 +60,12 @@ docker compose --profile all down         # 停止（データは残る）
 | [Loki](./18-loki.md) | ログ集約 | `loki` / `monitoring` | 3100 | Grafana から参照 |
 | [Tempo](./19-tempo.md) | 分散トレース | `tempo` / `monitoring` | 3200 / 4317 / 4318 | Grafana から参照 |
 
+### 付録
+
+| ドキュメント | 内容 |
+|---------|------|
+| [用語集](./99-glossary.md) | 各ガイドに横断的に出てくる用語（Compose 基礎 / 運用一般 / サービス固有）の逆引き |
+
 > `all` profile は全サービスを起動する。各カテゴリの profile（`sql` / `nosql` / `messaging` / `monitoring` / `search` / `emulator`）でまとめ起動も可能。
 
 ## 関連ドキュメント

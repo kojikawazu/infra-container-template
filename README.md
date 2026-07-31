@@ -137,6 +137,8 @@ docker exec -it infra-mongodb mongosh -u root -p rootpass
 各サービスの「概要・目的・起動・接続・使用例・アプリ実装（CLI / TypeScript / Python）」を 1 サービス 1 ファイルでまとめた学習用ドキュメントを用意している。
 まずは [docs/guides/00-index.md](docs/guides/00-index.md) から目的のコンテナを選ぶ。
 
+ガイドに出てくる用語（`profile` / named volume / トピック / スクレイプ など）は [docs/guides/99-glossary.md](docs/guides/99-glossary.md) に逆引きでまとめてある。
+
 ## AI エージェント向けルール
 
 開発ルールの正本は [`.claude/rules/`](.claude/rules/) です。Claude Code は [`CLAUDE.md`](CLAUDE.md) から、Codex は [`AGENTS.md`](AGENTS.md) から同じルールを参照します。ルール本文は各入口へ複製しません。
